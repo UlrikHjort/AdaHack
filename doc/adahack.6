@@ -1,0 +1,191 @@
+.TH ADAHACK 6 "2026-03-29" "AdaHack 1.0" "Games Manual"
+.SH NAME
+adahack \- a NetHack\-inspired terminal roguelike written in Ada
+.SH SYNOPSIS
+.B adahack
+.SH DESCRIPTION
+.B adahack
+is a procedurally generated, turn-based dungeon crawler.
+Descend ten dungeon levels, find the legendary
+.B Amulet of Yendor
+on level 10, and carry it back to the surface to win.
+.PP
+Every level is randomly generated with rooms, corridors, locked doors,
+shops, traps, secret passages, dark rooms, and increasingly dangerous
+monsters.  Items found or bought can shift the odds in your favour.
+.SH CONTROLS
+.SS Movement
+.TP
+.BR h " / " \(la " (left arrow)"
+Move west.
+.TP
+.BR j " / " \(da " (down arrow)"
+Move south.
+.TP
+.BR k " / " \(ua " (up arrow)"
+Move north.
+.TP
+.BR l " / " \(ra " (right arrow)"
+Move east.
+.TP
+.BR y \ u \ b \ n
+Move diagonally (NW, NE, SW, SE).
+.SS Actions
+.TP
+.B >
+Descend stairs (stand on \fB>\fP).
+.TP
+.B <
+Ascend stairs (stand on \fB<\fP).
+Ascending from level 1 while carrying the Amulet of Yendor wins the game.
+.TP
+.B i
+Open inventory.  Press a letter to use/equip/eat the item.
+.TP
+.B e
+Quick-eat the first food ration in your pack.
+.TP
+.B r
+Rest one turn, recovering 1 HP (cannot rest near awake monsters).
+.TP
+.B R
+Auto-rest until full HP or until a monster wakes nearby.
+.TP
+.B S
+Search adjacent tiles for secret doors (costs one turn).
+.TP
+.B f
+Fire your readied bow in a chosen direction.
+.TP
+.B K
+Kick (then choose direction).  Can break down locked doors.
+.TP
+.B s
+Browse the shop (stand on green \fB$\fP tile).
+Press a letter to buy, \fBS\fP to sell items, \fBESC\fP to leave.
+.TP
+.B t
+Activate ring of teleportation (if equipped).
+.TP
+.B D
+Drop an item (choose from inventory).
+.TP
+.B q
+Quit the game (asks for confirmation; press
+.B y
+to quit).
+.SH ITEMS
+Items are picked up automatically by walking over them.
+.TP
+.B $ (gold)
+Currency.  Spend it at shops.
+.TP
+.B ) (weapon)
+White = melee weapon; cyan = bow.
+Wield with \fBi\fP.  Value shows attack bonus (negative = cursed).
+.TP
+.B / (arrow)
+Ammo for a bow.  Value = count.  Consumed automatically on firing.
+.TP
+.B [ (armor)
+Wear with \fBi\fP.  Value = defence bonus (negative = cursed).
+.TP
+.B ! (potion)
+Drink with \fBi\fP.  Colours: blue=heal, red=strength, foul-smelling=poison,
+murky=blind, sparkling=invisibility.
+.TP
+.B ? (scroll)
+Read with \fBi\fP.  Types: identify, magic map, fireball,
+enchant weapon, enchant armor, teleportation.
+.TP
+.B = (ring)
+Wear with \fBi\fP.  Types: regeneration (+1 HP/5 turns),
+invisibility (monsters ignore proximity), speed (+2 attack),
+teleportation (press \fBt\fP to activate).
+Rings wear out after 80\[en]200 turns and crumble to dust.
+.TP
+.B ( (torch)
+Light with \fBi\fP.  Illuminates dark rooms (radius 6 vs default 2).
+Burns for 150\[en]400 turns.
+.TP
+.B % (food)
+Eat with \fBi\fP or \fBe\fP.  Restores HP and resets hunger.
+.TP
+.B ? (key)
+Used automatically when walking into a matching locked door (+).
+.TP
+.B " (Amulet of Yendor)
+Found on dungeon level 10.  Carry it back to level 1 and ascend to win.
+.SH MONSTERS
+.TP
+.B r (rat), B (bat)
+Weak but common on level 1.  Bats may blind you on a hit.
+.TP
+.B g (goblin), o (orc)
+Mid-range threats.  Appear from level 2 onward.
+.TP
+.B T (troll)
+Tough and regenerates 1 HP every 5 turns.
+.TP
+.B D (dragon)
+Most dangerous monster.  Can fire-breathe from up to 4 tiles away.
+.SH DUNGEON FEATURES
+.TP
+.B + (door)
+Yellow = closed, red = locked, "/" = open.
+Walk into a closed door to open it; locked doors need a key or \fBK\fPick.
+.TP
+.B # (secret door)
+Looks like a wall until found with \fBS\fPearch.
+.TP
+.B ^ (trap)
+Cyan=teleport, red=dart, yellow=pit, magenta=blind.
+Traps are invisible until triggered.
+.TP
+.B $ (shop, green)
+An in-level shop.  Press \fBs\fP while standing on it.
+.TP
+Dark rooms
+Some rooms generate without lighting.  Visibility is limited to 2 tiles
+unless you carry a lit torch (extends vision to 6 tiles).
+.SH HUNGER
+The player grows hungry as turns pass.
+Status bar shows
+.B Hungry
+below 300 hunger points and
+.B STARVING
+at zero, at which point 1 HP is lost every 5 turns.
+Eating food resets hunger to full.  Resting drains hunger slightly faster.
+.SH SCORING
+Your final score equals
+.IR gold\ *\ 2\ +\ XP\ +\ dungeon_depth\ *\ 50 ,
+plus 10\ 000 bonus points for winning.
+.SH TIPS
+.IP \(bu
+Rest (\fBR\fP) between fights to recover, but watch your food supply.
+.IP \(bu
+Search (\fBS\fP) walls between rooms \(em secret doors often lead to
+shortcuts or treasure.
+.IP \(bu
+A ring of invisibility stops monsters from waking by proximity; useful
+for slipping past powerful enemies.
+.IP \(bu
+Enchant scrolls are rare \(em save them for your best weapon and armour.
+.IP \(bu
+Trolls regenerate; kill them quickly or they will recover mid-fight.
+.IP \(bu
+Dragons breathe fire at range.  Stay mobile or use a scroll of fireball.
+.SH FILES
+.TP
+.I ~/.adahack_hiscore
+High score table (plain text, created automatically on first play).
+.SH AUTHOR
+Ulrik H\(/orlyk Hjort.
+.br
+Written in Ada 2012 (GNAT) as an educational roguelike project.
+.SH COPYRIGHT
+Copyright \(co 2026 Ulrik H\(/orlyk Hjort.
+Released under the MIT License; see the header of any source file for the
+full license text.
+.SH SEE ALSO
+.BR nethack (6)
